@@ -1,2 +1,2 @@
 # FartinatorV2
-This is version 2 of The Fartinator game. 
+This is version 2 of The Fartinator game, this game is currently just a remake of V1 but with hopes to expand on it. I have used webpack to pull the game apart from the ugly beast that is was in V1 (a single file) to make the code more modular, and maintainable.
