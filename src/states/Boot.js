@@ -1,37 +1,27 @@
 import Phaser from 'phaser'
-import WebFont from 'webfontloader'
-import config from '../config'
 
 export default class extends Phaser.State {
-  init () {
-    this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
-  }
-
   preload () {
-    if (config.webfonts.length) {
-      WebFont.load({
-        google: {
-          families: config.webfonts
-        },
-        active: this.fontsLoaded
-      })
-    }
-
-    let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
-    text.anchor.setTo(0.5, 0.5)
-
-    this.load.image('loaderBg', './assets/images/loader-bg.png')
-    this.load.image('loaderBar', './assets/images/loader-bar.png')
+    this.load.spritesheet('fartinator', 'assets/images/runningStick.png', 40, 50, 7)
+    this.load.image('florinatorClouds', 'assets/images/florinatorClouds.png')
+    this.load.image('florinatorSky', 'assets/images/florinatorSky.png')
+    this.load.image('ground', 'assets/images/ground.png')
+    this.load.image('platformJump', 'assets/images/platform.png')
+    this.load.image('demon', 'assets/images/demonRobot.png')
+    this.load.image('shot', 'assets/images/shots.png')
+    this.load.image('bullet', 'assets/images/bullet.png')
   }
 
-  render () {
-    if (config.webfonts.length && this.fontsReady) {
-      this.state.start('Splash')
-    }
-    if (!config.webfonts.length) {
-      this.state.start('Splash')
-    }
+  // render () {
+  //   if (config.webfonts.length && this.fontsReady) {
+  //     this.state.start('Splash')
+  //   }
+  //   if (!config.webfonts.length) {
+  //     this.state.start('Splash')
+  //   }
+  // }
+  create () {
+    this.state.start('Game')
   }
 
   fontsLoaded () {
