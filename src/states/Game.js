@@ -36,7 +36,6 @@ export default class extends Phaser.State {
       height: this.game.cache.getImage('florinatorClouds').height,
       key: 'florinatorClouds'
     })
-
     this.clouds.create(this.clouds)
 
     this.platforms = new Platforms({
@@ -47,7 +46,6 @@ export default class extends Phaser.State {
       jumpTimer: this.jumpTimer,
       cursors: this.cursors
     })
-    this.platforms.createPlatforms()
 
     this.ground = new Ground({
       game: this.game,
@@ -72,7 +70,6 @@ export default class extends Phaser.State {
       name: 'badDoods',
       enableBody: true
     })
-    this.badDoods.createTheBeasts()
 
     this.largeShots = new LargeShots({
       game: this.game,
@@ -82,12 +79,6 @@ export default class extends Phaser.State {
       badDoods: this.badDoods,
       shootTimer: []
     })
-    this.largeShots.createShots()
-
-    this.game.add.existing(this.largeShots)
-    this.game.add.existing(this.platforms)
-    this.game.add.existing(this.fartinator)
-    this.game.add.existing(this.ground)
   }
 
   update () {

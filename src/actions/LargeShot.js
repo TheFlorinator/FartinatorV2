@@ -4,18 +4,15 @@ export default class extends Phaser.Group {
   constructor ({ game, parent, enableBody, physicsBodyType, cursors, badDoods, shootTimer }) {
     super(game, parent, enableBody, physicsBodyType, cursors, badDoods, shootTimer)
     this.cursors = cursors
-    // shootTimer not tied correctly to badDoods
     this.shootTimer = shootTimer
     this.badDoods = badDoods
-  }
-
-  createShots () {
     this.setAll('anchor.x', 0.5)
     this.setAll('anchor.y', 1)
     this.createMultiple(20, 'shot')
     this.setAll('outOfBoundsKill', true)
     this.setAll('checkWorldBounds', true)
     this.shootTimer.push(0)
+    this.game.add.existing(this)
   }
 
   fireLargeShots (shots) {

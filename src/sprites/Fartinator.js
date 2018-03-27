@@ -11,6 +11,7 @@ export default class extends Phaser.Sprite {
     this.animations.add('right', [1, 2, 3, 4, 5], 1, true)
     this.animations.add('up', [0], true)
     this.animations.add('down', [6], true)
+    this.game.add.existing(this)
     this.cursors = cursors
     this.platforms = platforms
     this.platform = {}

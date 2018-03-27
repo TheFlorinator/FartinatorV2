@@ -6,18 +6,16 @@ export default class extends Phaser.Group {
     this.jumpTimer = jumpTimer
     this.platform = {}
     this.cursors = cursors
+    this.createMultiple(7, 'platformJump')
+    this.setAll('outOfBoundsKill', true)
+    this.setAll('checkWorldBounds', true)
+    this.game.add.existing(this)
   }
 
   update () {
     if (this.cursors.down.isDown) {
       this.platform.kill()
     }
-  }
-
-  createPlatforms () {
-    this.createMultiple(7, 'platformJump')
-    this.setAll('outOfBoundsKill', true)
-    this.setAll('checkWorldBounds', true)
   }
 
   buildPlatform (sprite, platforms, game) {
