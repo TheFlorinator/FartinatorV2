@@ -4,6 +4,8 @@ import BackGround from '../environment/BackGround'
 import Fartinator from '../sprites/Fartinator'
 import Ground from '../environment/Ground'
 import Platforms from '../environment/Platforms'
+import BadDood from '../sprites/BadDood'
+import LargeShots from '../actions/LargeShot'
 
 export default class extends Phaser.State {
   init () { }
@@ -42,12 +44,10 @@ export default class extends Phaser.State {
       parent: null,
       enableBody: true,
       physicsBodyType: Phaser.Physics.ARCADE,
-      jumpTimer: this.jumpTimer
+      jumpTimer: this.jumpTimer,
+      cursors: this.cursors
     })
-
-    this.platforms.createMultiple(5, 'platformJump')
-    this.platforms.setAll('outOfBoundsKill', true)
-    this.platforms.setAll('checkWorldBounds', true)
+    this.platforms.createPlatforms()
 
     this.ground = new Ground({
       game: this.game,
@@ -66,6 +66,25 @@ export default class extends Phaser.State {
       platforms: this.platforms
     })
 
+    this.badDoods = new BadDood({
+      game: this.game,
+      parent: null,
+      name: 'badDoods',
+      enableBody: true
+    })
+    this.badDoods.createTheBeasts()
+
+    this.largeShots = new LargeShots({
+      game: this.game,
+      parent: null,
+      enableBody: true,
+      physics: Phaser.Physics.ARCADE,
+      badDoods: this.badDoods,
+      shootTimer: []
+    })
+    this.largeShots.createShots()
+
+    this.game.add.existing(this.largeShots)
     this.game.add.existing(this.platforms)
     this.game.add.existing(this.fartinator)
     this.game.add.existing(this.ground)
@@ -75,9 +94,7 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.ground, this.fartinator)
     this.game.physics.arcade.collide(this.fartinator, this.platforms)
     this.clouds.tilePosition.x -= 0.3
-    // var cursors = this.game.input.keyboard.createCursorKeys()
-
-    this.fartinator.update()
+    this.largeShots.fireLargeShots(this.largeShots)
   }
 
   render () {

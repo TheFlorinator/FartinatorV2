@@ -36,9 +36,5 @@ export default class extends Phaser.Sprite {
     if (this.cursors.right.isDown) {
       this.platform = this.platforms.buildPlatform(this, this.platforms, this.game, this.jumpTimer)
     }
-    if (this.cursors.down.isDown) {
-      // not functioning
-      this.platform.kill()
-    }
   }
 }

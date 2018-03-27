@@ -12,14 +12,6 @@ export default class extends Phaser.State {
     this.load.image('bullet', 'assets/images/bullet.png')
   }
 
-  // render () {
-  //   if (config.webfonts.length && this.fontsReady) {
-  //     this.state.start('Splash')
-  //   }
-  //   if (!config.webfonts.length) {
-  //     this.state.start('Splash')
-  //   }
-  // }
   create () {
     this.state.start('Game')
   }
