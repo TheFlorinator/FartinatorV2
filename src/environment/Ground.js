@@ -5,9 +5,6 @@ export default class extends Phaser.Sprite {
     super(game, x, y, asset)
     this.anchor.setTo(0.5)
     this.game.add.existing(this)
-  }
-
-  create () {
     this.game.physics.arcade.enable(this)
     this.body.collideWorldBounds = true
     this.body.immovable = true

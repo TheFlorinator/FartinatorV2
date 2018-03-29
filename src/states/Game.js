@@ -53,7 +53,6 @@ export default class extends Phaser.State {
       y: this.game.world.height - 30,
       asset: 'ground'
     })
-    this.ground.create()
 
     this.fartinator = new Fartinator({
       game: this.game,
@@ -70,6 +69,7 @@ export default class extends Phaser.State {
       name: 'badDoods',
       enableBody: true
     })
+    this.badDoods.releaseTheBeasts(3)
 
     this.largeShots = new LargeShots({
       game: this.game,
@@ -84,6 +84,9 @@ export default class extends Phaser.State {
   update () {
     this.game.physics.arcade.collide(this.ground, this.fartinator)
     this.game.physics.arcade.collide(this.fartinator, this.platforms)
+    if (this.game.physics.arcade.overlap(this.fartinator, this.largeShots)) {
+      this.fartinator.playerKill(this.largeShots, this.fartinator)
+    }
     this.clouds.tilePosition.x -= 0.3
     this.largeShots.fireLargeShots(this.largeShots)
   }

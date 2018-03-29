@@ -38,4 +38,8 @@ export default class extends Phaser.Sprite {
       this.platform = this.platforms.buildPlatform(this, this.platforms, this.game, this.jumpTimer)
     }
   }
+
+  playerKill (shots, sprite) {
+    sprite.kill()
+  }
 }
