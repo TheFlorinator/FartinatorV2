@@ -5,7 +5,7 @@ import Fartinator from '../sprites/Fartinator'
 import Ground from '../environment/Ground'
 import Platforms from '../environment/Platforms'
 import BadDood from '../sprites/BadDood'
-import LargeShots from '../actions/LargeShot'
+import Shoot from '../actions/Shoot'
 
 export default class extends Phaser.State {
   init () { }
@@ -13,9 +13,8 @@ export default class extends Phaser.State {
 
   create () {
     this.cursors = this.game.input.keyboard.createCursorKeys()
-    this.jumpTimer = {
-      time: 0
-    }
+    this.fireButoon = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    this.jumpTimer = { time: 0 }
 
     this.sky = new BackGround({
       game: this.game,
@@ -26,8 +25,6 @@ export default class extends Phaser.State {
       key: 'florinatorSky'
     })
 
-    this.sky.create(this.sky)
-
     this.clouds = new BackGround({
       game: this.game,
       x: 0,
@@ -36,7 +33,6 @@ export default class extends Phaser.State {
       height: this.game.cache.getImage('florinatorClouds').height,
       key: 'florinatorClouds'
     })
-    this.clouds.create(this.clouds)
 
     this.platforms = new Platforms({
       game: this.game,
@@ -71,24 +67,41 @@ export default class extends Phaser.State {
     })
     this.badDoods.releaseTheBeasts(3)
 
-    this.largeShots = new LargeShots({
+    this.badDoodShots = new Shoot({
       game: this.game,
       parent: null,
       enableBody: true,
       physics: Phaser.Physics.ARCADE,
-      badDoods: this.badDoods,
+      sprites: this.badDoods,
       shootTimer: []
     })
+    this.badDoodShots.createBadDoodShots()
+
+    this.fartinatorShots = new Shoot({
+      game: this.game,
+      parent: null,
+      enableBody: true,
+      physicsBodyType: Phaser.Physics.ARCADE,
+      sprites: this.fartinator,
+      shootTimer: []
+    })
+    this.fartinatorShots.createGoodDoodShots()
   }
 
   update () {
     this.game.physics.arcade.collide(this.ground, this.fartinator)
     this.game.physics.arcade.collide(this.fartinator, this.platforms)
-    if (this.game.physics.arcade.overlap(this.fartinator, this.largeShots)) {
-      this.fartinator.playerKill(this.largeShots, this.fartinator)
+    if (this.game.physics.arcade.overlap(this.fartinator, this.badDoodShots)) {
+      this.fartinator.playerKill(this.badDoodShots, this.fartinator)
+    }
+    if (this.game.physics.arcade.overlap(this.badDoods, this.fartinatorShots)) {
+      this.badDoods.badDoodkill(this.fartinatorShots, this.badDoods)
     }
     this.clouds.tilePosition.x -= 0.3
-    this.largeShots.fireLargeShots(this.largeShots)
+    this.badDoodShots.badDoodShoots(this.badDoodShots)
+    if (this.fireButoon.isDown) {
+      this.fartinatorShots.goodDoodShoots(this.fartinatorShots)
+    }
   }
 
   render () {
