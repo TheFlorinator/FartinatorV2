@@ -39,7 +39,7 @@ export default class extends Phaser.Sprite {
     }
   }
 
-  playerKill (shots, sprite) {
-    sprite.kill()
+  playerKill () {
+    this.kill()
   }
 }

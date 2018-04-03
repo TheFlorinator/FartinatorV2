@@ -91,12 +91,8 @@ export default class extends Phaser.State {
   update () {
     this.game.physics.arcade.collide(this.ground, this.fartinator)
     this.game.physics.arcade.collide(this.fartinator, this.platforms)
-    if (this.game.physics.arcade.overlap(this.fartinator, this.badDoodShots)) {
-      this.fartinator.playerKill(this.badDoodShots, this.fartinator)
-    }
-    if (this.game.physics.arcade.overlap(this.badDoods, this.fartinatorShots)) {
-      this.badDoods.badDoodkill(this.fartinatorShots, this.badDoods)
-    }
+    this.game.physics.arcade.overlap(this.badDoodShots, this.fartinator, this.fartinator.playerKill, null, this.fartinator)
+    this.game.physics.arcade.overlap(this.fartinatorShots, this.badDoods, this.badDoods.badDoodkill, null, this.badDoods)
     this.clouds.tilePosition.x -= 0.3
     this.badDoodShots.badDoodShoots(this.badDoodShots)
     if (this.fireButoon.isDown) {

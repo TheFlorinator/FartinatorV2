@@ -20,7 +20,7 @@ export default class extends Phaser.Group {
     }
   }
 
-  badDoodkill () {
-    this.demon.kill()
+  badDoodkill (bullet, demon) {
+    demon.kill()
   }
 }
