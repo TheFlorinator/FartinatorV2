@@ -5,8 +5,4 @@ export default class extends Phaser.TileSprite {
     super(game, x, y, width, height, key)
     this.game.add.existing(this)
   }
-
-  // create (item) {
-  //   this.game.add.existing(item)
-  // }
 }

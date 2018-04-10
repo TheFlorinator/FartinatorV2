@@ -1,10 +1,9 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Group {
-  constructor ({ game, parent, enableBody, physicsBodyType, jumpTimer, cursors }) {
-    super(game, parent, enableBody, physicsBodyType, jumpTimer, cursors)
+  constructor ({ game, parent, name, addToStage, enableBody, physicsBodyType, jumpTimer, cursors }) {
+    super(game, parent, name, addToStage, enableBody, physicsBodyType, jumpTimer, cursors)
     this.jumpTimer = jumpTimer
-    this.platform = {}
     this.cursors = cursors
     this.createMultiple(7, 'platformJump')
     this.setAll('outOfBoundsKill', true)
@@ -18,10 +17,10 @@ export default class extends Phaser.Group {
     }
   }
 
-  buildPlatform (sprite, platforms, game) {
-    if (game.time.now > this.jumpTimer.time) {
+  buildPlatform (sprite, platforms) {
+    if (this.game.time.now > this.jumpTimer.time) {
       this.platform = platforms.getFirstExists(false, true)
-      game.physics.enable(this.platform, Phaser.Physics.ARCADE)
+      this.game.physics.enable(this.platform, Phaser.Physics.ARCADE)
       if (this.platform) {
         this.platform.reset(sprite.body.center.x + 5, sprite.body.center.y + 30)
         this.platform.body.immovable = true
@@ -29,7 +28,6 @@ export default class extends Phaser.Group {
         sprite.body.velocity.y = 0
       }
       this.jumpTimer.time = this.game.time.now + 400
-      return this.platform
     }
   }
 }

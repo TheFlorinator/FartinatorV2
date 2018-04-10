@@ -18,28 +18,31 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
-    this.animations.play('right', 15, true)
-    if (this.body.touching.down && this.body.center.y < 537) {
-      this.body.velocity.x = 200
-    }
-    if (this.cursors.up.isDown && this.body.touching.down) {
-      this.animations.play('up', true)
-      this.body.velocity.y = -500
-    }
-    if (this.body.velocity.y < 0) {
-      this.animations.play('up', true)
-      this.body.velocity.x = 0
-    }
-    if (this.body.velocity.y > 0) {
-      this.animations.play('down', true)
-      this.body.velocity.x = 0
-    }
-    if (this.cursors.right.isDown) {
-      this.platform = this.platforms.buildPlatform(this, this.platforms, this.game, this.jumpTimer)
+    if (this.alive) {
+      this.animations.play('right', 15, true)
+      if (this.body.touching.down && this.body.center.y < 537) {
+        this.body.velocity.x = 200
+      }
+      if (this.cursors.up.isDown && this.body.touching.down) {
+        this.animations.play('up', true)
+        this.body.velocity.y = -500
+      }
+      if (this.body.velocity.y < 0) {
+        this.animations.play('up', true)
+        this.body.velocity.x = 0
+      }
+      if (this.body.velocity.y > 0) {
+        this.animations.play('down', true)
+        this.body.velocity.x = 0
+      }
+      if (this.cursors.right.isDown) {
+        this.platforms.buildPlatform(this, this.platforms)
+      }
     }
   }
 
-  playerKill () {
-    this.kill()
+  playerKill (shot, sprite) {
+    shot.kill()
+    sprite.kill()
   }
 }

@@ -7,7 +7,7 @@ export default class extends Phaser.Group {
   }
 
   createTheBeast () {
-    this.demon = this.create(randomInt(800, 1000), randomInt(50, 100), 'demon')
+    this.demon = this.create(randomInt(800, 1000), randomInt(50, 600), 'demon')
     this.game.physics.enable(this.demon, Phaser.Physics.ARCADE)
     this.demon.body.bounce.set(1)
     this.demon.body.collideWorldBounds = true
@@ -21,6 +21,7 @@ export default class extends Phaser.Group {
   }
 
   badDoodkill (bullet, demon) {
+    bullet.kill()
     demon.kill()
   }
 }

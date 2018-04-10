@@ -37,6 +37,8 @@ export default class extends Phaser.State {
     this.platforms = new Platforms({
       game: this.game,
       parent: null,
+      name: 'platforms',
+      addToStage: false,
       enableBody: true,
       physicsBodyType: Phaser.Physics.ARCADE,
       jumpTimer: this.jumpTimer,
@@ -61,7 +63,7 @@ export default class extends Phaser.State {
 
     this.badDoods = new BadDood({
       game: this.game,
-      parent: null,
+      parent: this.game.world,
       name: 'badDoods',
       enableBody: true
     })
@@ -69,23 +71,25 @@ export default class extends Phaser.State {
 
     this.badDoodShots = new Shoot({
       game: this.game,
-      parent: null,
+      parent: this.game.world,
+      name: 'badShots',
+      addToStage: false,
       enableBody: true,
-      physics: Phaser.Physics.ARCADE,
-      sprites: this.badDoods,
-      shootTimer: []
+      physicsBodyType: Phaser.Physics.ARCADE,
+      sprites: this.badDoods
     })
-    this.badDoodShots.createBadDoodShots()
+    this.badDoodShots.createShots(20, 'shot')
 
     this.fartinatorShots = new Shoot({
       game: this.game,
-      parent: null,
+      parent: this.game.world,
+      name: 'goodShots',
+      addToStage: false,
       enableBody: true,
       physicsBodyType: Phaser.Physics.ARCADE,
-      sprites: this.fartinator,
-      shootTimer: []
+      sprites: this.fartinator
     })
-    this.fartinatorShots.createGoodDoodShots()
+    this.fartinatorShots.createShots(20, 'bullet')
   }
 
   update () {
@@ -95,12 +99,16 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.fartinatorShots, this.badDoods, this.badDoods.badDoodkill, null, this.badDoods)
     this.clouds.tilePosition.x -= 0.3
     this.badDoodShots.badDoodShoots(this.badDoodShots)
-    if (this.fireButoon.isDown) {
-      this.fartinatorShots.goodDoodShoots(this.fartinatorShots)
+    if (this.fartinator.alive) {
+      if (this.fireButoon.isDown) {
+        this.fartinatorShots.goodDoodShoots(this.fartinatorShots)
+      }
     }
   }
 
   render () {
+    this.game.debug.physicsGroup(this.badDoodShots)
+    this.game.debug.body(this.fartinator)
     if (__DEV__) {
       this.game.debug.spriteInfo(this.fartinator, 32, 32)
     }
