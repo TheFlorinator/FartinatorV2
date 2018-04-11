@@ -1,4 +1,3 @@
-/* globals __DEV__ */
 import Phaser from 'phaser'
 import BackGround from '../environment/BackGround'
 import Fartinator from '../sprites/Fartinator'
@@ -6,6 +5,7 @@ import Ground from '../environment/Ground'
 import Platforms from '../environment/Platforms'
 import BadDood from '../sprites/BadDood'
 import Shoot from '../actions/Shoot'
+import Lives from '../actions/Lives'
 
 export default class extends Phaser.State {
   init () { }
@@ -24,6 +24,16 @@ export default class extends Phaser.State {
       height: this.game.cache.getImage('florinatorSky').height,
       key: 'florinatorSky'
     })
+
+    this.lives = new Lives({
+      game: this.game,
+      parent: this.game.world,
+      name: 'lives',
+      addToStage: false,
+      enableBody: false,
+      physicsBodyType: Phaser.Physics.ARCADE
+    })
+    this.lives.createLives(3)
 
     this.clouds = new BackGround({
       game: this.game,
@@ -58,7 +68,8 @@ export default class extends Phaser.State {
       y: this.world.centerY - 50,
       asset: 'fartinator',
       cursors: this.cursors,
-      platforms: this.platforms
+      platforms: this.platforms,
+      lives: this.lives
     })
 
     this.badDoods = new BadDood({
@@ -109,8 +120,8 @@ export default class extends Phaser.State {
   render () {
     this.game.debug.physicsGroup(this.badDoodShots)
     this.game.debug.body(this.fartinator)
-    if (__DEV__) {
-      this.game.debug.spriteInfo(this.fartinator, 32, 32)
-    }
+    // if (__DEV__) {
+    //   this.game.debug.spriteInfo(this.fartinator, 32, 32)
+    // }
   }
 }

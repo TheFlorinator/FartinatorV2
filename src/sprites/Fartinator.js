@@ -1,9 +1,10 @@
 import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
-  constructor ({ game, x, y, asset, jumpTimer, platforms, cursors }) {
-    super(game, x, y, asset, jumpTimer, platforms)
+  constructor ({ game, x, y, asset, jumpTimer, platforms, cursors, lives }) {
+    super(game, x, y, asset, jumpTimer, platforms, lives)
     this.anchor.setTo(0.5)
+    this.lives = lives
     this.game.physics.arcade.enable(this)
     this.body.setSize(20, 43, 10, 5)
     this.body.gravity.y = 1000
@@ -41,8 +42,20 @@ export default class extends Phaser.Sprite {
     }
   }
 
-  playerKill (shot, sprite) {
+  playerKill (sprite, shot) {
     shot.kill()
-    sprite.kill()
+    this.life = this.lives.getFirstAlive()
+    if (this.life) {
+      this.life.kill()
+    }
+    if (this.lives.countLiving() < 1) {
+      sprite.kill()
+      this.game.input.onTap.addOnce(this.restart, this)
+    }
+  }
+
+  restart () {
+    // this.callAll('revive')
+    this.revive()
   }
 }
