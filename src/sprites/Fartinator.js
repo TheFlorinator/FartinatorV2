@@ -3,7 +3,6 @@ import Phaser from 'phaser'
 export default class extends Phaser.Sprite {
   constructor ({ game, x, y, asset, jumpTimer, platforms, cursors, lives }) {
     super(game, x, y, asset, jumpTimer, platforms, lives)
-    this.anchor.setTo(0.5)
     this.lives = lives
     this.game.physics.arcade.enable(this)
     this.body.setSize(20, 43, 10, 5)
@@ -16,6 +15,7 @@ export default class extends Phaser.Sprite {
     this.cursors = cursors
     this.platforms = platforms
     this.platform = {}
+    this.setHealth(100)
   }
 
   update () {
@@ -54,8 +54,13 @@ export default class extends Phaser.Sprite {
     }
   }
 
+  playerUpgrade (fartinator, fart) {
+    fart.kill()
+    fartinator.heal(10)
+  }
+
   restart () {
-    // this.callAll('revive')
+    this.lives.callAll('revive')
     this.revive()
   }
 }

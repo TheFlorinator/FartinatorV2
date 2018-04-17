@@ -6,6 +6,7 @@ import Platforms from '../environment/Platforms'
 import BadDood from '../sprites/BadDood'
 import Shoot from '../actions/Shoot'
 import Lives from '../actions/Lives'
+import PowerObjects from '../actions/PowerObjects'
 
 export default class extends Phaser.State {
   init () { }
@@ -72,11 +73,24 @@ export default class extends Phaser.State {
       lives: this.lives
     })
 
+    this.powerFarts = new PowerObjects({
+      game: this.game,
+      parent: null,
+      name: 'powerFarts',
+      addToStage: false,
+      enableBody: true,
+      physicsBodyType: Phaser.Physics.ARCADE
+    })
+    this.powerFarts.createPowerFarts(20, 'fart')
+
     this.badDoods = new BadDood({
       game: this.game,
       parent: this.game.world,
       name: 'badDoods',
-      enableBody: true
+      addToStage: false,
+      enableBody: true,
+      physicsBodyType: Phaser.Physics.ARCADE,
+      farts: this.powerFarts
     })
     this.badDoods.releaseTheBeasts(3)
 
@@ -108,6 +122,7 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.fartinator, this.platforms)
     this.game.physics.arcade.overlap(this.badDoodShots, this.fartinator, this.fartinator.playerKill, null, this.fartinator)
     this.game.physics.arcade.overlap(this.fartinatorShots, this.badDoods, this.badDoods.badDoodkill, null, this.badDoods)
+    this.game.physics.arcade.overlap(this.powerFarts, this.fartinator, this.fartinator.playerUpgrade, null, this.fartinator)
     this.clouds.tilePosition.x -= 0.3
     this.badDoodShots.badDoodShoots(this.badDoodShots)
     if (this.fartinator.alive) {
