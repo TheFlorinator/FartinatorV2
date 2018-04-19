@@ -2,9 +2,10 @@ import Phaser from 'phaser'
 import {randomInt} from '../actions/helpers'
 
 export default class extends Phaser.Group {
-  constructor ({ game, parent, name, addToStage, enableBody, physicsBodyType, farts }) {
-    super(game, parent, name, addToStage, enableBody, physicsBodyType, farts)
+  constructor ({ game, parent, name, addToStage, enableBody, physicsBodyType, farts, levels }) {
+    super(game, parent, name, addToStage, enableBody, physicsBodyType, farts, levels)
     this.farts = farts
+    this.levels = levels
   }
 
   createTheBeast () {
@@ -14,6 +15,7 @@ export default class extends Phaser.Group {
     this.demon.body.collideWorldBounds = true
     this.demon.setHealth(100)
     this.demon.body.velocity.setTo(0, randomInt(50, 200))
+    this.callAll('revive')
   }
 
   releaseTheBeasts (beastCount) {
@@ -29,7 +31,10 @@ export default class extends Phaser.Group {
       this.farts.dropPowerObject(demon)
       demon.damage(20)
     } else {
-      demon.damage(20)
+      demon.damage(100)
+      if (this.getFirstAlive() === null) {
+        this.createTheBeast(1)
+      }
     }
     bullet.kill()
   }

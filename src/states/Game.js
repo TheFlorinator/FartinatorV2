@@ -47,7 +47,7 @@ export default class extends Phaser.State {
 
     this.platforms = new Platforms({
       game: this.game,
-      parent: null,
+      parent: this.game.world,
       name: 'platforms',
       addToStage: false,
       enableBody: true,
@@ -75,7 +75,7 @@ export default class extends Phaser.State {
 
     this.powerFarts = new PowerObjects({
       game: this.game,
-      parent: null,
+      parent: this.game.world,
       name: 'powerFarts',
       addToStage: false,
       enableBody: true,
@@ -90,9 +90,10 @@ export default class extends Phaser.State {
       addToStage: false,
       enableBody: true,
       physicsBodyType: Phaser.Physics.ARCADE,
-      farts: this.powerFarts
+      farts: this.powerFarts,
+      levels: this.levels
     })
-    this.badDoods.releaseTheBeasts(3)
+    this.badDoods.releaseTheBeasts(1)
 
     this.badDoodShots = new Shoot({
       game: this.game,
@@ -133,8 +134,8 @@ export default class extends Phaser.State {
   }
 
   render () {
-    this.game.debug.physicsGroup(this.badDoodShots)
-    this.game.debug.body(this.fartinator)
+    // this.game.debug.physicsGroup(this.badDoodShots)
+    // this.game.debug.body(this.fartinator)
     // if (__DEV__) {
     //   this.game.debug.spriteInfo(this.fartinator, 32, 32)
     // }

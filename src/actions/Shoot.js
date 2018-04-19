@@ -17,11 +17,14 @@ export default class extends Phaser.Group {
   }
 
   badDoodShoots (shots) {
-    for (var i = 0; i < this.sprites.children.length; i++) {
+    if (this.shootTimer.length < this.sprites.children.length) {
+      this.setupShootTimer()
+    }
+    for (var i = 0; i <= this.sprites.children.length; i++) {
       var badDood = this.sprites.children[i]
       if (this.game.time.now > this.shootTimer[i]) {
         this.shot = shots.getFirstExists(false, true)
-        if (badDood != null) {
+        if (badDood != null && badDood.alive) {
           this.shot.reset(badDood.body.x - 10, badDood.body.y + 10)
           this.shot.body.immovable = true
           this.shot.body.velocity.x = -randomInt(100, 400)

@@ -44,13 +44,20 @@ export default class extends Phaser.Sprite {
 
   playerKill (sprite, shot) {
     shot.kill()
-    this.life = this.lives.getFirstAlive()
-    if (this.life) {
-      this.life.kill()
-    }
-    if (this.lives.countLiving() < 1) {
-      sprite.kill()
-      this.game.input.onTap.addOnce(this.restart, this)
+    sprite.damage(20)
+    if (sprite.health <= 0) {
+      this.life = this.lives.getFirstAlive()
+      if (this.life) {
+        this.life.kill()
+        sprite.revive()
+      }
+      if (this.lives.countLiving() < 1) {
+        sprite.kill()
+        this.game.input.onTap.addOnce(this.restart, this)
+      }
+    } else {
+      sprite.alpha = 0.4
+      sprite.alpha = 1
     }
   }
 
