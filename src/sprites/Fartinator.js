@@ -53,11 +53,9 @@ export default class extends Phaser.Sprite {
       }
       if (this.lives.countLiving() < 1) {
         sprite.kill()
+        this.stateText.visible = true
         this.game.input.onTap.addOnce(this.restart, this)
       }
-    } else {
-      sprite.alpha = 0.4
-      sprite.alpha = 1
     }
   }
 
@@ -67,6 +65,11 @@ export default class extends Phaser.Sprite {
   }
 
   restart () {
+    if (this.badDoods.children.length > 1) {
+      for (var i = 0; this.badDoods.children.length - 1 > i; i++) {
+        this.badDoods.children.pop()
+      }
+    }
     this.lives.callAll('revive')
     this.revive()
   }

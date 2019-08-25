@@ -16,7 +16,5 @@ export default class extends Phaser.State {
   create () {
     this.state.start('Game')
     this.game.add.text(this.game.world.width - 200, 10, 'Lives: ', { font: '34px Arial', fill: '#fff' })
-    this.stateText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, ' ', { font: '40px Arial', fill: '#fff' })
-    this.stateText.visible = false
   }
 }

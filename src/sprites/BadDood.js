@@ -27,11 +27,14 @@ export default class extends Phaser.Group {
   badDoodkill (bullet, demon) {
     if (demon.health <= 0) {
       demon.kill()
-    } if (demon.health < 90) {
+    } if (demon.health <= 80) {
       this.farts.dropPowerObject(demon)
       demon.damage(20)
+      if (this.getFirstAlive() === null) {
+        this.createTheBeast(1)
+      }
     } else {
-      demon.damage(100)
+      demon.damage(20)
       if (this.getFirstAlive() === null) {
         this.createTheBeast(1)
       }

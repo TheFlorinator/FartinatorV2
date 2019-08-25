@@ -16,6 +16,8 @@ export default class extends Phaser.State {
     this.cursors = this.game.input.keyboard.createCursorKeys()
     this.fireButoon = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     this.jumpTimer = { time: 0 }
+    this.stateText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, ' ', { font: '40px Arial', fill: '#000000' })
+    this.stateText.visible = false
 
     this.sky = new BackGround({
       game: this.game,
@@ -63,16 +65,6 @@ export default class extends Phaser.State {
       asset: 'ground'
     })
 
-    this.fartinator = new Fartinator({
-      game: this.game,
-      x: this.world.centerX - 50,
-      y: this.world.centerY - 50,
-      asset: 'fartinator',
-      cursors: this.cursors,
-      platforms: this.platforms,
-      lives: this.lives
-    })
-
     this.powerFarts = new PowerObjects({
       game: this.game,
       parent: this.game.world,
@@ -105,6 +97,18 @@ export default class extends Phaser.State {
       sprites: this.badDoods
     })
     this.badDoodShots.createShots(20, 'shot')
+
+    this.fartinator = new Fartinator({
+      game: this.game,
+      x: this.world.centerX - 50,
+      y: this.world.centerY - 50,
+      asset: 'fartinator',
+      cursors: this.cursors,
+      platforms: this.platforms,
+      lives: this.lives,
+      text: this.stateText,
+      badDoods: this.badDoods
+    })
 
     this.fartinatorShots = new Shoot({
       game: this.game,
